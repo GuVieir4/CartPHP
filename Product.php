@@ -1,8 +1,8 @@
 <?php
 
-Class Product{                       #classe que define o comportamento de seus objetos usando métodos e modificando seus estados como atributos
+class Product{                       #classe que define o comportamento de seus objetos usando métodos e modificando seus estados como atributos(modelo do produto)
     public int $id;
-    public string $name;              #atributos da classe
+    public string $name;              #atributos da classe(atributos do produto)
     public float $price;
     public int $stock;
 
@@ -15,6 +15,31 @@ Class Product{                       #classe que define o comportamento de seus 
     }
 }
 
+class CartItem{                                                                   #Classe para representar um item(produto)do carrinho de compras e sua quantidade
+    public Product $product;
+    public int $quantity;
+
+    public function __construct(Product $product, int $quantity)                 #construtor do produto no carrinho
+    {
+        $this->product = $product;
+        $this->quantity = $quantity;
+    }
+
+    public function getSubtotal(): float                                         #metodo para fazer o calculo automatico do subtotal do item
+    {
+        return $this->product->price * $this->quantity;                          #pega o preço do produto e multiplica pela sua quantidade  
+    }
+}
+
+class Cart{
+    private array $items = [];
+
+    public function includeItem(Product $product, int $quantity): string
+    {
+        
+    }
+    
+}
 
 
 ?>
