@@ -30,10 +30,10 @@ echo "<hr>";
 
 echo "<h3>Aplicando cupom de desconto.</h3>";
 echo $cart->includeItem($product3, 15);
-echo $cart->listItems(). "<br>";
+echo $cart->listItems() . "<br>";
 
 $totalComDesconto = $cart->applyDiscount("DESCONTO10");
-echo "Total com desconto aplicado: R$" . number_format($totalComDesconto, 2, ',' , '.') . "<br>";
+echo "Total com desconto aplicado: R$" . number_format($totalComDesconto, 2, ',', '.') . "<br>";
 echo "<hr>";
 
 echo "<h3>Itens no carrinho:</h3>";
@@ -43,6 +43,3 @@ foreach ($cart->getItems() as $item) {
 
 
 echo $cart->listItems();
-
-
-?>
