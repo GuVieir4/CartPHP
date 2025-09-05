@@ -6,31 +6,53 @@ class Cart {
     public function updateQuantity(Product $product, int $quantityChange): string
     {
         if (!isset($this->items[$product->id])) {
-            return "O produto não está no carrinho.";
+            return "O produto {$product->name} não está no carrinho.";
+        }
+
+        if($quantityChange > 0 && $product->stock < $quantityChange) {
+            return "Não há mais do {$product->name} no estoque.Disponivel: {$product->stock}";
+
         }
 
         $this->items[$product->id]->quantity += $quantityChange;
 
-        if ($this->items[$product->id]->quantity +=$quantityChange <= 0) {
+        if ($this->items[$product->id]->quantity <= 0) {
             unset($this->items[$product->id]);
-            return "O Produto {product->name} removido do carrinho.";
+            $product->stock += abs($quantityChange);
+            return "O Produto {$product->name} foi removido do carrinho.";
+        }
+
+        if($quantityChange > 0) {
+            $product->stock -= $quantityChange;
+        } elseif($quantityChange < 0) {
+            $product->stock +=abs($quantityChange);
         }
     
         return "A quantidade do produto {$product->name} no carrinho foi atualizada para {$this->items[$product->id]->quantity}.";
-
+        
     }
 
      public function includeItem(Product $product, int $quantity): string 
      {
-        if (isset($this->items[$product->id])){
+
+        if($product === null){
+            return "Esse produto não existe.";
+        }
+
+        if($product-> stock < $quantity) {
+            return "Não há mais do produto {$product->name} no estoque";
+        }
+
+
+        if (isset($this->items[$product->id])) {
             return $this->updateQuantity($product, $quantity);
         }
         
         $this->items[$product->id] = new CartItem($product, $quantity);
+        $product->stock -= $quantity;
         return "O produto {$product->name} foi adicionado ao carrinho.";
 
     }
-
     public function increaseItem(Product $product, int $quantity): string 
     {
         return $this->updateQuantity($product, $quantity);
